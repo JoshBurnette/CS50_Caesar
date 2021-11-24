@@ -1,0 +1,136 @@
+#include <cs50.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int main(int argc, string argv[])
+{
+    // check argc
+    if (argc != 2)
+    {
+        printf("Usage:  ./caesar key\n");
+        printf("1");
+        return (1);
+    }
+    
+    else if (argc == 2)
+    {
+        // Make sure key is valid
+        const int KEY = atoi(argv[1]);
+        bool validkey = true;
+        int length = strlen(argv[1]);
+        for (int i = 0; i < length; i++)
+        {
+            if (isdigit(argv[1][i]) == false)
+            {
+                validkey = false;
+                
+                i = length;
+            }
+        }  
+        
+        if (validkey)
+        {
+            string plaintext = get_string("plaintext: ");
+            
+            int plainlength = strlen(plaintext);
+            
+            
+            for (int i = 0; i < plainlength; i++)
+            {
+                // upper or lower case?
+                if (isupper(plaintext[i]))
+                {
+                    // 'Z' - 'A'
+                    if (plaintext[i] + KEY > 'Z')
+                    {
+                        int remainder = (plaintext[i] + KEY) - 'Z';
+                       
+                        if (remainder > 'Z' - 'A')
+                        {
+                            while (remainder >= ('Z' - 'A'))
+                            {
+                                remainder = remainder - (26);
+                            }
+                           
+                            if (plaintext[i] + remainder > 'Z')
+                            {
+                                remainder = plaintext[i] + remainder - 'Z';
+                               
+                                plaintext[i] = 'A' + remainder - 1;
+                            }
+                            else 
+                            {
+                                plaintext[i] = 'A' + remainder - 1;
+                            }
+                             
+                        }
+                        //if remainder is a reasonable number
+                        // we can add it to 'A' and make it encrypted
+                        else 
+                        {
+                            plaintext[i] = 'A' + remainder - 1;
+                        }  
+                    }
+                    // this is for the simplest keys
+                    else if (plaintext[i] + KEY <= 'Z')
+                    {
+                        plaintext[i] = plaintext[i] + KEY;
+                    }
+                       
+                }
+                else if (islower(plaintext[i]))
+                {
+                    // 'z' - 'a'
+                    if (plaintext[i] + KEY > 'z')
+                    {
+                        int remainder = (plaintext[i] + KEY) - 'z';
+                       
+                        if (remainder > 'z' - 'a')
+                        {
+                            while (remainder >= ('z' - 'a'))
+                            {
+                                remainder = remainder - (26);
+                            }
+                            
+                            if (plaintext[i] + remainder > 'z')
+                            {
+                                remainder = plaintext[i] + remainder - 'z';
+                               
+                                plaintext[i] = 'a' + remainder - 1;
+                            }
+                           
+                            else 
+                            {
+                                plaintext[i] = 'a' + remainder - 1;
+                            }
+                             
+                        }
+                        //if remainder is a reasonable number
+                        // we can add it to 'a' and make it encrypted
+                        else 
+                        {
+                            plaintext[i] = 'a' + remainder - 1;
+                        }  
+                    }
+                    // this is for the simplest keys
+                    else if (plaintext[i] + KEY <= 'z')
+                    {
+                        plaintext[i] = plaintext[i] + KEY;
+                    }
+                       
+                }
+            }
+            printf("ciphertext: %s\n", plaintext); 
+        }
+        else
+        {
+            printf("Usage: ./caesar key\n");
+        }
+    
+    }
+     
+      
+}
